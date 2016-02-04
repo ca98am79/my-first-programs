@@ -1,2 +1,5 @@
 # ball
-I think this was just a ball that bounced on the screen 
+
+An experiment with sprites to bounce a ball
+
+![Ball program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/ball/ball.gif)
