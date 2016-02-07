@@ -16,9 +16,7 @@ Experimenting with graphics.  [The reference to John at the bottom line of the c
 
 A space fighter game.  In the source code [a variable is named "missyconrad"](https://github.com/ca98am79/my-first-programs/blob/master/asteroid/ASTEROID.PAS#L399) - this is the name of a girl I had a crush on in school.
 
-![Asteroid program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/asteroid/asteroid1.png)
-
-![Asteroid program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/asteroid/asteroid2.png)
+![Asteroid program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/asteroid/asteroid.gif)
 
 # [ball](https://github.com/ca98am79/my-first-programs/tree/master/ball)
 
@@ -38,23 +36,13 @@ I can't find the source code.
 
 Some weird missile game that I don't think you even do anything with except watch it and hope for the best.
 
-![blow program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/blow/blow.png)
+![blow program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/blow/blow.gif)
 
 # [cars](https://github.com/ca98am79/my-first-programs/tree/master/cars)
 
 My epic car game
 
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars1.png)
-
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars2.png)
-
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars3.png)
-
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars4.png)
-
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars5.png)
-
-![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars6.png)
+![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars.gif)
 
 # [chess](https://github.com/ca98am79/my-first-programs/tree/master/chess)
 
@@ -116,9 +104,7 @@ This is the kind of stuff I did for fun as a kid.
 
 Can you figure out how to get the treasure?  Not sure why I called it "mines" - I probably had a different idea when I started.  Also, this is heavily influenced from [Hack/Nethack](https://en.wikipedia.org/wiki/Hack_(video_game)), which I *loved*.
 
-![Mines program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/mines/mines1.png)
-
-![Mines program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/mines/mines2.png)
+![Mines program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/mines/mines.gif)
 
 # [music](https://github.com/ca98am79/my-first-programs/tree/master/music)
 
@@ -156,23 +142,19 @@ Playing around with graphics
 
 A line goes towards another line and you press the space bar to start/stop it.  You try to get it as close to the other line as you can, and it gets faster and faster each level.  I think there was a high score list, so I was always competing with myself or friends or my sister.
 
-![Reflex program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/reflex/reflex1.png)
-
-![Reflex program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/reflex/reflex2.png)
-
-![Reflex program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/reflex/reflex3.png)
+![Reflex program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/reflex/reflex.gif)
 
 # [sea](https://github.com/ca98am79/my-first-programs/tree/master/sea)
 
 Fish game.  Also, it looks similar to [asteroid](https://github.com/ca98am79/my-first-programs/tree/master/asteroid), in that [girls that I had crushes on in school made it on the variables list](https://github.com/ca98am79/my-first-programs/blob/master/sea/SEA.PAS#L17).
 
-![Sea program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/sea/sea.png)
+![Sea program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/sea/sea.gif)
 
 # [stars](https://github.com/ca98am79/my-first-programs/tree/master/stars)
 
 Must have been one of my first programs.  Although, [you can see in the code I have specific plots](https://github.com/ca98am79/my-first-programs/blob/master/stars/STARS.PAS#L54-L65) (not just random) - I wonder what I was up to?  Probably just messing around.
 
-![Stars program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/stars/stars.png)
+![Stars program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/stars/stars.gif)
 
 # [unscram](https://github.com/ca98am79/my-first-programs/tree/master/unscram)
 
