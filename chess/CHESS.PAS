@@ -1,4 +1,10 @@
 program chess(input,output);
+{---------------------------}
+{}                         {}
+{}     {MIKE CARSON}       {}
+{}       {8-16-92}         {}
+{}                         {}
+{---------------------------}
 {$I sprites.lib}
 {$I blank.inc}
 {$I graph.p}
@@ -11,7 +17,8 @@ var
    turn:turntype;
    board:boardtype;
    turnc,turnr,turntoc,sub,turntor:integer;
-   x,y:integer;
+   z,x,y,jj,kk,ex,why:integer;
+   where:char;
    legal,checkmate,check:boolean;
 {-------------------------------------printpiece}
 procedure printpiece(x,y,p:integer);
@@ -166,7 +173,8 @@ begin
    if turnc=turntoc then
    begin
       if (turntor=turnr-1) and (board[turnc,turntor]=0) then legal:=true
-      else if (turntor=turnr-2) and (turnr=7) and (board[turnc,turntor-1]=0) then legal:=true;
+      else if (turntor=turnr-2) and (turnr=7) and ((board[turnc,turnr-1]=0) and (board[turnc,turnr-2]=0)) then
+      legal:=true;
    end
    else if (turnc=turntoc+1) or (turnc=turntoc-1) then
    begin
@@ -308,81 +316,479 @@ begin
      else if (turnc=turntoc) and ((turnr=turntor+1) or (turnr=turntor-1)) then legal:=true;
   end;
 end;
-{-------------------------------------blackmoves}
-procedure blackmoves(var board:boardtype);
-var
-  a,b,c:integer;
+{-------------------------------------ifpawnb}
+procedure ifpawnb(c,b,d,e:integer;
+                 var legal:boolean;
+                 board:boardtype);
 begin
-   a:=random(6)+7;
+   if b=d then
+   begin
+      if (e=c+1) and (board[b,e]=0) then legal:=true
+      else if (e=c+2) and (c=2) and ((board[b,c+1]=0) and (board[b,c+2]=0)) then legal:=true;
+   end
+   else if (b=d+1) or (b=d-1) then
+   begin
+     if c=e-1 then
+     begin
+     if (board[d,e]<7) and (board[d,e]>0) then legal:=true;
+     end;
+   end;
+end;
+{-----------------------------------ifbishopb}
+procedure ifbishopb(c,b,d,e:integer;
+                 var legal:boolean;
+                 board:boardtype);
+var x,xx,y:integer;
+begin
+   xx:=0;
+   if (board[d,e]<7) then begin
+      if (c<>e) and (b<>d) then
+      begin
+        for x:=1 to 8 do
+        begin
+          if (c+x=e) and (b+x=d) then xx:=1
+          else if (c-x=e) and (b-x=d) then xx:=1
+          else if (c-x=e) and (b+x=d) then xx:=1
+          else if (c+x=e) and (b-x=d) then xx:=1;
+        end;
+        if xx=1 then
+        begin
+          if (e>c) and (d>b) then begin
+            for x:=1 to (d-(b+1)) do
+              if board[d-x,e-x]<>0 then xx:=5;
+          end
+          else if (e>c) and (d<b) then begin
+             for x:=1 to (b-(d+1)) do
+               if board[d+x,e-x]<>0 then xx:=5;
+          end
+          else if (e<c) and (d<b) then begin
+             for x:=1 to (b-(d+1)) do
+               if board[d+x,e+x]<>0 then xx:=5;
+          end
+          else if (e<c) and (d>b) then begin
+             for x:=1 to (d-(b+1)) do
+               if board[d-x,e+x]<>0 then xx:=5;
+          end;
+       if (xx<>5) and (xx<>0) then legal:=true;
+    end;
+  end;
+  end;
+end;
+{-----------------------------------ifknightb}
+procedure ifknightb(c,b,d,e:integer;
+                 var legal:boolean;
+                 board:boardtype);
+begin
+if (board[d,e]<7) then begin
+  if (c=e+2) and ((b=d-1) or (b=d+1)) then legal:=true
+  else if (c=e-2) and ((b=d-1) or (b=d+1)) then legal:=true
+  else if (b=d-2) and ((c=e-1) or (c=e+1)) then legal:=true
+  else if (b=d+2) and ((c=e-1) or (c=e+1)) then legal:=true;
+ end;
+end;
+{-----------------------------------ifrookb}
+procedure ifrookb(c,b,d,e:integer;
+                 var legal:boolean;
+                 board:boardtype);
+var
+   a,xx:integer;
+begin
+   legal:=false;
+   xx:=0;
+   if b=d then
+   begin
+     if (c=e-1) and (board[b,e]<7) then legal:=true;
+     if e<c then
+     begin
+     for a:=c-1 downto e+1 do
+       if board[b,a]<>0 then xx:=1;
+     if xx=0 then
+     begin
+        if board[b,e]=0 then legal:=true
+        else if board[b,e]<7 then legal:=true;
+     end;
+     end;
+     xx:=0;
+     if e>c then
+     begin
+     for a:=c+1 to e-1 do
+        if board[b,a]<>0 then xx:=1;
+     if xx=0 then
+     begin
+        if board[b,e]=0 then legal:=true
+        else if board[b,e]<7 then legal:=true;
+     end;
+     end;
+   end
+   else if c=e then
+   begin
+   if (b=d-1) and (board[d,c]<7) then legal:=true;
+   xx:=0;
+   if d<b then
+   begin
+     for a:=d+1 to b-1 do
+       if board[a,c]<>0 then xx:=1;
+     if xx=0 then
+     begin
+     gotoxy(30,10);
+        if board[d,c]=0 then legal:=true
+        else if board[d,c]<7 then legal:=true;
+     end;
+     end;
+     xx:=0;
+     if d>b then
+     begin
+     for a:=d-1 downto b+1 do
+        if board[a,c]<>0 then xx:=1;
+     if xx=0 then
+     begin
+        gotoxy(40,5);
+        if board[d,c]=0 then legal:=true
+        else if board[d,c]<7 then legal:=true;
+     end;
+     end;
+   end;
+end;
+{-----------------------------------if queenb}
+procedure ifqueenb(c,b,d,e:integer;
+                 var legal:boolean;
+                 board:boardtype);
+begin
+  ifrookb(c,b,d,e,legal,board);
+  ifbishopb(c,b,d,e,legal,board);
+end;
+{-------------------------------------ifcheckb}
+procedure ifcheckb(var board:boardtype;
+                   var ch1,ch2,mm,nn:integer;
+                   var check:boolean;
+                   var where:char);
+var z,y:integer;
+begin
+   z:=0;
+   gotoxy(75,9);
+   y:=0;
+   check:=false;
+   if ((board[mm-1,nn+1]=1) or (board[mm+1,nn+1]=1)) then check:=true;
+     while z<8 do
+     begin
+       z:=z+1;
+       while y<8 do
+        begin
+         y:=y+1;
+         if (board[z,y]<7) and (board[z,y]>0) then
+         begin
+         if board[z,y]=2 then ifbishop(y,z,mm,nn,check,board)
+         else if board[z,y]=3 then ifknight(y,z,mm,nn,check,board)
+         else if board[z,y]=4 then ifrook(y,z,mm,nn,check,board)
+         else if board[z,y]=5 then ifqueen(y,z,mm,nn,check,board);
+         if check=true then begin ch1:=z; ch2:=y; y:=10; z:=10; end;
+         end;
+        end;
+        if check<>true then y:=0;
+      end;
+end;
+{-----------------------------------ifblock}
+procedure ifblock(var board:boardtype;
+                  var where:char;
+                  var ch1,ch2,c,b,d,e:integer;
+                  var check:boolean);
+var block,can:boolean;
+    fake:boardtype;
+    samantha:char;
+    cc,aa,rr,ss,oo,die,die2,mike,carson:integer;
+begin
+    rr:=0;
+    block:=true;
+    can:=false;
+    if board[ch1,ch2]=3 then begin write('CHECKMATE'); halt; end
+    else if board[ch1,ch2]=1 then begin write('CHECKMATE'); halt; end
+    else
+     begin
+        if ch1=b then
+        {-------------------same column}
+          begin
+          for mike:=1 to 8 do
+           for carson:=1 to 8 do fake[mike,carson]:=board[mike,carson];
+           repeat
+            repeat
+              cc:=random(8)+1;
+              aa:=random(8)+1;
+            until (board[cc,aa]>7) and (board[cc,aa]<12);
+            ss:=board[cc,aa];
+            while rr<9 do
+              begin
+               rr:=rr+1;
+               if ss=8 then ifbishopb(aa,cc,ch1,rr,can,board)
+               else if ss=9 then ifknightb(aa,cc,ch1,rr,can,board)
+               else if ss=10 then ifrookb(aa,cc,ch1,rr,can,board)
+               else if ss=11 then ifqueenb(aa,cc,ch1,rr,can,board);
+               gotoxy(75,10);
+               if can=true then begin
+               fake[cc,aa]:=0;
+               fake[ch1,rr]:=ss;
+               ifcheckb(fake,ch1,ch2,d,e,block,where);
+               if block{ed}=false then begin
+                b:=cc;
+                c:=aa;
+                check:=false;
+                d:=ch1;
+                e:=rr;
+                rr:=997;
+               end
+               else begin fake[cc,aa]:=ss; fake[ch1,rr]:=0; end;
+              end;
+              end;
+           until block=false;
+          end
+         else if ch2=c then
+       { -------------------same rank}
+          begin
+          for mike:=1 to 8 do
+           for carson:=1 to 8 do fake[mike,carson]:=board[mike,carson];
+           repeat
+            repeat
+              cc:=random(8)+1;
+              aa:=random(8)+1;
+            until (board[cc,aa]>7) and (board[cc,aa]<12);
+            ss:=board[cc,aa];
+            while rr<9 do
+              begin
+               rr:=rr+1;
+               if ss=8 then ifbishopb(aa,cc,rr,ch2,can,board)
+               else if ss=9 then ifknightb(aa,cc,rr,ch2,can,board)
+               else if ss=10 then ifrookb(aa,cc,rr,ch2,can,board)
+               else if ss=11 then ifqueenb(aa,cc,rr,ch2,can,board);
+               gotoxy(75,10);
+               if can=true then begin
+               fake[cc,aa]:=0;
+               fake[rr,ch2]:=ss;
+               ifcheckb(fake,ch1,ch2,d,e,block,where);
+               if block{ed}=false then begin
+                b:=cc;
+                c:=aa;
+                check:=false;
+                d:=rr;
+                e:=ch2;
+                rr:=997;
+               end
+               else begin fake[cc,aa]:=ss; fake[rr,ch2]:=0; end;
+              end;
+              end;
+           until block=false;
+          end
+        {else
+        -------------------diagnols
+          begin
+          end;}
+      end;
+end;
+{-----------------------------------ifkingb}
+procedure ifkingb(var ch1,ch2,c,b,d,e:integer;
+                 var legal:boolean;
+                 var board:boardtype;
+                 var where:char);
+var check:boolean;
+    die,die2:integer;
+begin
+  if (board[d,e]<7) then
+  begin
+     ifcheckb(board,die,die2,d,e,check,where);
+     if ord(where)<160 then where:=succ(where);
+     if ord(where)>150 then ifblock(board,where,ch1,ch2,c,b,d,e,check);
+     if check=false then
+     begin
+     if board[b,c]=12 then begin
+      if (b=d+1) and ((c=e) or ((c=e-1) or (c=e+1))) then legal:=true
+      else if (b=d-1) and ((c=e) or ((c=e-1) or (c=e+1))) then legal:=true
+      else if (b=d) and ((c=e+1) or (c=e-1)) then legal:=true;
+     end
+     else legal:=true;
+     end;
+  end;
+end;
+ {-------------------------------------blackmoves}
+procedure blackmoves(var where:char;
+                     var board:boardtype;
+                     var legal:boolean);
+var
+  a,b,c,d,e,z,y,mm,nn,ch1,ch2:integer;
+  ch:char;
+  check:boolean;
+begin
+   gotoxy(75,21);
+   write('COMP.');
+   gotoxy(75,23);
+   write('     ');
+   legal:=false;
    repeat
       b:=random(8)+1;
       c:=random(8)+1;
    until board[b,c]>6;
+   repeat
+      d:=random(8)+1;
+      e:=random(8)+1;
+   until board[d,e]<7;
+   for z:=1 to 8 do
+   begin
+     for y:=1 to 8 do
+     begin
+       if board[z,y]=12 then begin
+       mm:=z; nn:=y;
+       end;
+     end;
+   end;
+  ifcheckb(board,ch1,ch2,mm,nn,check,where);
+   if check=true then begin
+     gotoxy(75,1);
+     write('CHECK');
+     b:=mm; c:=nn;
+     repeat
+       d:=random(8)+1;
+       e:=random(8)+1;
+     until board[d,e]<7;
+   end;
    a:=board[b,c];
    if a=7 then
     begin
-      if ((board[b+1,c+1]<7) and (board[b+1,c+1]>0)) then begin
-      board[b,c]:=0; if (b+c) mod 2=0 then fillshape(b*30,c*22,3,3)
-      else begin move(blank,sprite,128);
-      putspritec(b*30,c*22); fillshape(b*30,c*22,0,0); end; board[b+1,c+1]:=a;
+      legal:=false;
+      ifpawnb(c,b,d,e,legal,board);
+      if legal=true then begin
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if ((board[b-1,c+1]<7) and (board[b-1,c+1]>0)) then begin
-      board[b,c]:=0; if (b+c) mod 2=0 then fillshape(b*30,c*22,3,3)
-      else begin move(blank,sprite,128);
-      putspritec(b*30,c*22); fillshape(b*30,c*22,0,0); end; board[b-1,c+1]:=a;
+      else blackmoves(where,board,legal);
+    end
+   else if a=8 then
+    begin
+      legal:=false;
+      ifbishopb(c,b,d,e,legal,board);
+      if legal=true then begin
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if (board[b,c+1]<>0) then blackmoves(board)
-      else begin
-      board[b,c]:=0; if (b+c) mod 2=0 then fillshape(b*30,c*22,3,3)
-      else begin move(blank,sprite,128);
-      putspritec(b*30,c*22); fillshape(b*30,c*22,0,0); end; board[b,c+1]:=a;
-      end;
+      else blackmoves(where,board,legal);
     end
     else if a=9 then
-     begin
-      if (board[b-2,c+1]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b-2,c+1]:=a;
+    begin
+      legal:=false;
+      ifknightb(c,b,d,e,legal,board);
+      if legal=true then begin
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if (board[b-2,c-1]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b-2,c-1]:=a;
+      else blackmoves(where,board,legal);
+    end
+    else if a=10 then
+    begin
+      legal:=false;
+      ifrookb(c,b,d,e,legal,board);
+      if legal=true then begin
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if (board[b+2,c+1]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b+2,c+1]:=a;
+      else blackmoves(where,board,legal);
+    end
+    else if a=11 then
+    begin
+      legal:=false;
+      ifqueenb(c,b,d,e,legal,board);
+      if legal=true then begin
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if (board[b+2,c-1]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b+2,c-1]:=a;
+      else blackmoves(where,board,legal);
+    end
+    else if a=12 then
+    begin
+      legal:=false;
+      ifkingb(ch1,ch2,c,b,d,e,legal,board,where);
+      if legal=true then begin
+      a:=board[b,c];
+      board[b,c]:=0;
+      move(blank,sprite,128);
+      putspritec(b*30,c*22);
+      if (b+c) mod 2=0 then
+      fillshape(b*30,c*22,3,3)
+      else fillshape(b*30,c*22,0,0);
+      board[d,e]:=a;
+      gotoxy(75,23);
+      write(chr(b+96):1,9-c:1,'-',chr(d+96):1,9-e:1);
       end
-      else if (board[b-1,c+2]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b-1,c+2]:=a;
-      end
-      else if (board[b-1,c-2]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b-1,c-2]:=a;
-      end
-      else if (board[b+1,c-2]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b+1,c-2]:=a;
-      end
-      else if (board[b+1,c+2]<7) then begin board[b,c]:=0; if (b+c) mod 2=0 then
-        fillshape(b*30,c*22,3,3)
-        else begin move(blank,sprite,128); putspritec(b*30,c*22);
-        fillshape(b*30,c*22,0,0); end; board[b+1,c+2]:=a;
-      end
-      else blackmoves(board);
-   end
-   else blackmoves(board);
+      else blackmoves(where,board,legal);
+    end
+    else blackmoves(where,board,legal);
+end;
+{-------------------------------------promote}
+procedure promote(var board:boardtype;
+                      sub:integer);
+var
+  pro:char;
+begin
+gotoxy(73,5);
+write('Promote');
+gotoxy(73,6);
+write(' to ?');
+gotoxy(73,7);
+write('q,b,n,r');
+gotoxy(74,8);
+read(pro);
+gotoxy(73,5);
+write('       ');
+gotoxy(73,6);
+write('        ');
+gotoxy(73,7);
+write('         ');
+gotoxy(73,8);
+write('       ');
+draw(260,190,260,5,3);
+if pro='q' then board[sub,1]:=5
+else if pro='b' then board[sub,1]:=2
+else if pro='n' then board[sub,1]:=3
+else if pro='r' then board[sub,1]:=4
+else promote(board,sub);
+end;
+{-------------------------------------promoteb}
+procedure promoteb(var board:boardtype;
+                      sub:integer);
+var
+  pro:char;
+begin
+  board[sub,8]:=11;
 end;
 {-------------------------------------MAIN}
 begin
@@ -405,6 +811,7 @@ begin
    board[6,1]:=8;
    board[7,1]:=9;
    board[8,1]:=10;
+   ex:=5; why:=5;
    board[1,8]:=4;
    board[2,8]:=3;
    board[3,8]:=2;
@@ -417,12 +824,15 @@ begin
    palette(3);
    drawboard;
    repeat
+      where:='a';
+      gotoxy(75,1);
+      write('      ');
       printboard(board);
-      gotoxy(75,15);
       legal:=false;
+      gotoxy(75,15);
       write('Move?');
       gotoxy(75,16);
-      write('       ');
+      write('      ');
       gotoxy(75,16);
       readln(turn);
       getstuff(turn,turnc,turnr,turntoc,turntor);
@@ -441,9 +851,25 @@ begin
       fillshape(turnc*30,turnr*22,3,3)
       else fillshape(turnc*30,turnr*22,0,0);
       board[turntoc,turntor]:=sub;
-      blackmoves(board);
+      printboard(board);
+      legal:=false;
+      for jj:=1 to 8 do
+        if board[jj,1]=1 then promote(board,jj);
+      for jj:=1 to 8 do
+        if board[jj,8]=7 then promoteb(board,jj);
+      blackmoves(where,board,legal);
       end;
-   until checkmate=true;
+      ex:=0;
+      why:=0;
+      for x:=1 to 8 do
+       for jj:=1 to 8 do
+         begin
+           if board[x,jj]=6 then ex:=5
+           else if board[x,jj]=12 then why:=5;
+         end;
+   until (ex=0) or (why=0);
+   if ex=0 then writeln('         I WIN')
+   else if why=0 then writeln('            YOU WIN');
 end.
 
 
