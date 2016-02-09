@@ -164,3 +164,9 @@ Enter a scrambled word and this program will unscramble it for you!  Only, it ju
 
 ![Unscram program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/unscram/unscram2.png)
 
+# weird
+
+Experimenting with graphics.
+
+![Weird program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/weird/weird.gif)
+
