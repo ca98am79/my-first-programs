@@ -164,9 +164,15 @@ Enter a scrambled word and this program will unscramble it for you!  Only, it ju
 
 ![Unscram program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/unscram/unscram2.png)
 
-# weird
+# [weird](https://github.com/ca98am79/my-first-programs/tree/master/weird)
 
 Experimenting with graphics.
 
 ![Weird program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/weird/weird.gif)
+
+# [war](https://github.com/ca98am79/my-first-programs/tree/master/war)
+
+The card game "[war](https://en.wikipedia.org/wiki/War_(card_game))." 
+
+![War program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/war/war.png)
 
