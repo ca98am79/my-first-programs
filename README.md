@@ -1,6 +1,6 @@
 # my-first-programs
 
-About six or seven years ago, I went with my father to my grandfather's house because my dad had our old family computer there and it was still able to start up, but we knew it wouldn't be able to for much longer.  This computer had all of my old computer games that I programmed when I was a teenager, and I planned to copy them onto a 5¼-inch floppy disk, transfer it to my grandfather's computer which had a 5¼-inch floppy disk drive, but also a 3½-inch floppy disk drive.  Once I got them on a 3½-inch floppy disk, I could then copy them to my laptop and anywhere else.  I was able to copy most of the stuff, and they have been sitting on my hard drive and drop box for a while, but now I'm finally putting them on Github.
+About ten years ago, I went with my father to my grandfather's house because my dad had our old family computer there and it was still able to start up, but we knew it wouldn't be able to for much longer.  This computer had all of my old computer games that I programmed when I was a teenager, and I planned to copy them onto a 5¼-inch floppy disk, transfer it to my grandfather's computer which had a 5¼-inch floppy disk drive, but also a 3½-inch floppy disk drive.  Once I got them on a 3½-inch floppy disk, I could then copy them to my laptop and anywhere else.  I was able to copy most of the stuff, and they have been sitting on my hard drive and dropbox for a while, but now I'm finally putting them on Github.
 
 These programs represent a very special and meaningful part of my childhood.  I didn't have many friends around this time and I remember spending all day and late nights during summer break sitting at my computer making games and messing around.  My uncle John introduced me to programming in Pascal because he was taking a computer programming class at the University of Akron.  My grandfather saw my interest and bought me a thick Pascal reference book, which I pored over endlessly.  It was so awesome to me to be able to make things - cool things - on my computer.  It gave me a lot of confidence and made me happy.
 
@@ -34,13 +34,13 @@ A trick program that makes you think it is deleting all files on your drive.  I 
 
 # [blow](https://github.com/ca98am79/my-first-programs/tree/master/blow)
 
-Some weird missile game that I don't think you even do anything with except watch it and hope for the best.
+Some weird missile game that I don't think you even do anything with except watch it and hope for the best.  You will notice my reuse of the explosion sprite graphic - I use this in a few different programs.
 
 ![blow program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/blow/blow.gif)
 
 # [cars](https://github.com/ca98am79/my-first-programs/tree/master/cars)
 
-My epic car game
+My epic car game.  It was my only [side-scrolling](https://en.wikipedia.org/wiki/Side-scrolling_video_game) game, and I only made four screens for it, so there is no way to win.  Maybe some day I or others can fork and continue the game, but it would take some work since the [sprites/inc files](https://github.com/ca98am79/my-first-programs/blob/master/cars/CARS.PAS#L2-L11) are missing. 
 
 ![Car program screenshot](https://raw.githubusercontent.com/ca98am79/my-first-programs/master/cars/cars.gif)
 
